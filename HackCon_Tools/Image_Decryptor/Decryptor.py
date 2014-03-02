@@ -7,10 +7,13 @@
 
 import sys
 
-def remove(message):			#Remove """ , . ' ; " < > / ? ] [ { } | \ = - _ + * & ^ % $ # 2 ! """#
+def remove(message):
 	q = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ \t\n'
 	f = ''
-	message = message.upper()
+	try:
+		message = message.upper()
+	except AttributeError:
+		return []
 	for t in message:
 		if t in q:
 			f = f + t
@@ -47,71 +50,33 @@ def CountWords(message):
 	#Return total fraction of english words in message
 	return float(count)/len(wordList)
 
-#<No_Brute>#
-def ReturnBinary():
-	f = open('Workspace.bmp','rb')
-	f.read(100)
-
-	byte = f.read(1)
-	l = []
-	l.append(str(ord(byte)%2))
-
-	while byte != "":
-		byte = f.read(3)
-		try:
-			l.append(str(ord(byte[2])%2))
-		except IndexError:
-			pass
-	f = open('Intermediate.txt','w')
-	f.write(''.join(l))
-
-def Text():				#Text from Binary
-	ReturnBinary()
-	f = open('Intermediate.txt','r')
-	l = []
-	size = len(f.read())
-	f.close()
-
-	f = open('Intermediate.txt','r')
-	i = 0
-	while (i<size):
-		r = int(str(f.read(8)),2)
-		l.append(chr(r))
-		i += 8
-
-	h = ''
-	for t in l:
-		h = h + str(t)
-	print h
-
-#</No_Brute>#
-
-def BruteBinary(i):
+def BruteBinary(i,j,file_='Workspace.bmp'):
 
 	#Open the file in binary mode.
-	f = open('Workspace.bmp','rb')
+	f = open(file_,'rb')
 
 	#initialize list to zero currently, ie an Empty list.
 	l = []
 
-	#Start reading the file from the very first byte.
-	byte = f.read(i)
+	#Start reading the file from the j'th byte.
+	byte = f.read(j)
 
+	sys.stdout.write("Starting from first %d byte\n" % j)
 	#Until the end of document.
 	while byte != "":
 
 		#read the i'th character(Or whatever is that)
-		
+		byte = f.read(i)
 
 		#If possible then get the binary last of the least significant digit/character.
 		try:
 			#ord --> ASCII of that character
 			#str --> list is of string type, so it is necessary to convert integer to a string.
 			decimal = ord(byte[i-1])
-			remainder = decimal%2
+			remainder = decimal % 2
 			string_ = str(remainder)
 			l.append(string_)  #assuming least significant polluted.
-		
+			
 		except IndexError:
 			"""
 			f = open('Intermediate.txt','w')
@@ -119,7 +84,6 @@ def BruteBinary(i):
 			return 1
 			"""
 			pass
-		byte = f.read(i)
 	f.close()
 	#Open the intermediate file to write the binary form obtained.
 	qw = open('Intermediate.txt','w')
@@ -133,53 +97,64 @@ def BruteBinary(i):
 	#Anyway loop is going to terminate here.
 	return 1
 
-def BruteText(i):				#Text from Binary
+def BruteText(d,file_='Workspace.bmp'):				#Text from Binary
 	
-	sys.stdout.write('Trying with %s\n' % str(i)) 
+	sys.stdout.write('Trying with %s\n' % str(d)) 
 	#Write the file i. e. Intermediate.txt which contains the binary form of chars
-	BruteBinary(i)
+	for j in range(1,150):
+		BruteBinary(d,j,file_)
+		j += 1
+		#Now since the file Intermediate.txt is being written, it is available to be read.
+		f = open('Intermediate.txt','r')
 
-	#Now since the file Intermediate.txt is being written, it is available to be read.
-	f = open('Intermediate.txt','r')
+		#Total size of that file.
+		size = len(f.read())
 
-	#Total size of that file.
-	size = len(f.read())
+		#Close the file.
+		f.close()
 
-	#Close the file.
-	f.close()
+		l = []
+		f = open('Intermediate.txt','r')
+		i = 0
+		while (i<size):
+			#Take first 8-bits and convert it to decimal.
+			r = int(str(f.read(8)),2)
 
-	l = []
-	f = open('Intermediate.txt','r')
-	i = 0
-	while (i<size):
-		#Take first 8-bits and convert it to decimal.
-		r = int(str(f.read(8)),2)
+			#Get the character representing that decimal number.
+			l.append(chr(r))
 
-		#Get the character representing that decimal number.
-		l.append(chr(r))
+			#Increment i by 8 to read another 8-digit pair.
+			i += 8
 
-		#Increment i by 8 to read another 8-digit pair.
-		i += 8
+		h = ''
+		for t in l:
+			h = h + str(t)
+		if (CountWords(h)>0.3):
+			sys.stdout.write(h)
+			t = raw_input()
+			if(t.upper()[0] == "Y"):
+				pass
+			else:
+				sys.exit(1)
 
-	h = ''
-	for t in l:
-		h = h + str(t)
-	return h
-
-def GetSize():
-	f = open('Workspace.bmp','rb')
+def GetSize(file_='Workspace.bmp'):
+	f = open(file_,'rb')
 	t = len(f.read())
 	f.close()
 	return t
 
-def Worker():
-	size = GetSize()
-	for i in range(0,size):
-		if (CountWords(BruteText(i))>0.2):
-			print BruteText(i)
-			t = raw_input()
-			pass
+def Worker(file_='Workspace.bmp'):
+	size = GetSize(file_)
+	for i in range(1,100):
+		BruteText(i)
+		i += 1
+
 def main():
-	Worker()
+	try:
+		file_ = argv[1]
+	except Exception, e:
+		file_ = 'Workspace.bmp'
+	Worker(file_)
+
 if __name__ == '__main__':
 	main()
