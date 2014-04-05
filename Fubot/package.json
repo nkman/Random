@@ -1,0 +1,31 @@
+{
+  "name": "fubot-2",
+  "version": "0.0.3",
+  "description": "Facebook-bot",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "private" : true,
+  "dependencies": {
+    "fbgraph" : "0.2.10",
+    "express" : "3.4.0",
+    "node-notifier" : "1.1.2-0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://al_len@bitbucket.org/al_len/random.git"
+  },
+  "engines": {
+    "node": ">= 0.10.x",
+    "npm": ">= 1.3.x"
+  },
+  "keywords": [
+    "facebook",
+    "fubot",
+    "helper",
+    "node"
+  ],
+  "author": "Nairitya Khilari",
+  "license": "MIT"
+}
