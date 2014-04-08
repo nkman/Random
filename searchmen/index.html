@@ -1,0 +1,101 @@
+<html>
+
+<head>
+<style>
+body{
+	background: -webkit-linear-gradient(top,#540C0C,#BA8B58);
+    }
+div.ini{
+	width:500px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:-100px;
+	padding-top:1px;
+	-webkit-perspective:800px;
+	}
+
+div.cont{
+	
+	width:400px;
+	height:350px;
+	margin:150px auto 0 ;
+	
+	border-radius:10px;
+	text-align:center;
+	
+	font-size:30px;
+	line-height:55px;
+	color:white;
+	position:relative;
+	}
+
+div.cont div.back, div.cont div.front {
+	-webkit-backface-visibility: hidden;
+	-webkit-transition: all 1s;
+	width:inherit;
+	height:inherit;
+	position:absolute;
+	left: 0;
+	top: 0;
+	border-radius:10px;
+          }
+
+div.cont div.front{
+	background-color: -webkit-linear-gradient(top,#FFFFFF,#C06B6B);
+	}
+
+div.cont div.back{
+	text-align:center;
+	background-color:-webkit-linear-gradient(top,#FFFFFF,#C06B6B);
+	-webkit-transform:rotateX(-180deg);
+	}
+div.cont:hover div.back{
+	-webkit-transform:rotateX(0deg);
+	}
+div.cont:hover div.front{
+	-webkit-transform:rotateX(180deg);
+	}
+.box{
+	/////position:relative;
+	//////top=-10px;
+	/////left=-30px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:20px;
+	margin-bottom:0px;
+	padding-top:-50px;
+	border-radius:10px;
+	font-size:20px;
+	
+				width:300px;
+				height:50px;
+				text-align:center;
+				border:3px solid grey;
+				}
+ ///.box:hover{
+	width:320px;
+	height:65px;
+	font-size:25px;
+	
+	}
+a{
+  color:white;
+  text-decoration:none;
+}
+.f{
+        margin-left:750px;
+        margin-top:10px;
+  }
+</style>
+</head>
+<body>
+<div align="center"><img src="sea.png"><br /><img src="FIND.png"></div>
+<div class="ini">
+<div class="cont">
+		<div class="front">hey touch here</br>Try Finding some peoples</div>
+		<div class="back"><a href="name.html"><div class="box">Search By Name</div></a></br><a href="batch.html"><div class="box">Search By Batch</div></a></br><a href="branch.html"><div class="box">Search By Branch </div></a>
+</div></div>
+
+<a href="form.html"><h3 class="f">include_me</a></h3>
+</body>
+</html>
